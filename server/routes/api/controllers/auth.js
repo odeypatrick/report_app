@@ -64,19 +64,18 @@ exports.login = (req, res) => {
     User.findOne({
         email: req.body.email
     }, function (err, user) {
-            if (err) throw err
+            if (err) {
+                return res.status(500).send({success: false, msg: 'Something went wrong'})
+            }
             if (!user) {
                 res.status(403).send({success: false, msg: 'Authentication Failed, User not found'})
             }
-
-            
-
             else {
                 if(user.approved) {
                     user.comparePassword(req.body.password, function (err, isMatch) {
                         if (isMatch && !err) {
                             var token = jwt.sign({ userId: user._id }, 'secretkey');
-                            res.status(200).json({success: true, token: token})
+                            res.status(200).json({success: true, token: token, isAdmin: user.isAdmin})
                         }
                         else {
                             return res.status(403).send({success: false, msg: 'Authentication failed, wrong password'})
@@ -84,7 +83,7 @@ exports.login = (req, res) => {
                     })
                 }
                 else {
-                    return res.status(403).send({success: false, msg: 'Authentication failed, You have not approved yet'})
+                    return res.status(403).send({success: false, msg: 'Authentication failed, You have not been approved yet'})
                 }
             }
     }
