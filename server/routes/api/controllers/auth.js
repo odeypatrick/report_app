@@ -98,15 +98,16 @@ exports.getUserData = (req, res) => {
         })
 
         //token is valid
-        User.findOne({ _id: decoded.userId }, (err, user) => {
-            const { _id, email, phone } = user;
+        User.findOne({ _id: decoded.userId }).populate("reports").exec((err, user) => {
+            const { _id, email, phone, reports } = user;
             if(err) return res.status(404).json({ err })
             return res.status(200).json({
                 title: 'User gotten',
                 user: {
                     _id,
                     email,
-                    phone
+                    phone, 
+                    reports
                 }
             })
         })
