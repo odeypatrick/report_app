@@ -124,3 +124,11 @@ exports.approveUser = (req, res) => {
     })
     .catch(err => res.status(500).json({ err }))
 }
+
+exports.deleteUser = (req, res) => {
+    User.findByIdAndDelete(req.params.id)
+    .then(() => {
+        res.status(200).json({ msg: "User deleted" })
+    })
+    .catch(err => res.status(500).json({err}))
+}

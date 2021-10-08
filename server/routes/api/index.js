@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const mongoose = require('mongoose')
-const { request, signup, login, getUserData, approveUser } = require('./controllers/auth')
+const { request, signup, login, getUserData, approveUser, deleteUser } = require('./controllers/auth')
 const { getAllReport, getSingleReport, addReport, deleteReport, getUserReport } = require('./controllers/reports')
 const { url } = require('./url/url') 
 const User = require('./models/user')
@@ -50,5 +50,8 @@ router.get('/user', getUserData)
 
 //Approve user
 router.put('/user/approve', approveUser)
+
+//Delete User
+router.delete("/user/:id/delete", deleteUser)
 
 module.exports = router
