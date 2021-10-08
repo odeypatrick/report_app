@@ -2,8 +2,14 @@ const mongoose = require('mongoose');
 
 const reportSchema = new mongoose.Schema({
     projectData: Object,
-    approved: Boolean,
-    rejected: Boolean,
+    approved: {
+        type: Boolean,
+        default: false
+    },
+    rejected: {
+        type: Boolean,
+        default: false
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
