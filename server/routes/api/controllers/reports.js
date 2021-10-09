@@ -1,7 +1,7 @@
 const Report = require('../models/reports')
 
 exports.getAllReport = (req, res) => {
-    Report.find({ user: req.params.id }).exec()
+    Report.find({}).exec()
     .then(reports => {
         return res.status(200).json({ reports })
     })
