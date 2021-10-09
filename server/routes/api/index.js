@@ -55,8 +55,8 @@ router.put('/user/approve', approveUser)
 router.delete("/user/:id/delete", deleteUser)
 
 // GET REVIEWED Reports
-router.get("/user/:userId/report/reviewed")
+router.get("/user/:userId/report/reviewed", getReviewedReport)
 
 // GET Unreviewed Report
-router.get("/user/:userId/report/unreviewed")
+router.get("/user/:userId/report/unreviewed", getUnreviewedReport)
 module.exports = router
