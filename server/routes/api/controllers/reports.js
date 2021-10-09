@@ -32,27 +32,6 @@ exports.getSingleReport = (req, res) => {
     })
 }
 
-// Get Reviewed Report of a user
-exports.getReviewedReport = (req, res) => {
-    Report.find({ user: req.params.userId })
-    .then(report => {
-        if(report.approved) {
-            return res.status(200).json({ report })
-        }
-    })
-    .catch(err => res.status(500).json({err}))
-}
-
-// Get unreviewed report of a user
-exports.getUnreviewedReport = (req, res) => {
-    Report.find({ user: req.params.userId })
-    .then(report => {
-        if(!report.approved) {
-            return res.status(200).json({ report })
-        }
-    })
-    .catch(err => res.status(500).json({err}))
-}
 
 // Add Reports
 exports.addReport = (req, res) => {
