@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const mongoose = require('mongoose')
-const { request, signup, login, getUserData, approveUser, deleteUser } = require('./controllers/auth')
+const { signup, login, getUserData, approveUser, deleteUser } = require('./controllers/auth')
 const { 
     getAllReport, getSingleReport, addReport, deleteReport, getUserReport, getReviewedReport, getUnreviewedReport
  } = require('./controllers/reports')
@@ -23,8 +23,6 @@ router.get('/users', (req, res) => {
     .then((users) => res.json({users}))
     .catch((err) => res.status(500).json({err}))
 })
-// Request for auth
-router.post('/auth/request', request)
 
 //Signup - can be accessed by only an admin
 router.post('/auth/signup', signup)
