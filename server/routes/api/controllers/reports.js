@@ -21,6 +21,23 @@ exports.getUserReport = (req, res) => {
     })
 }
 
+exports.getTotalReport = (req, res) => {
+    Report.find({ user: req.params.id }).exec()
+    .then(reports => {
+        const totalReport = reports.length;
+        const approved = reports.filter(report => report.approved === true).length
+        const unapproved = reports.filter(report => report.approved === false).length
+        return res.status(200).json({ 
+            totalReport,
+            approved,
+            unapproved
+        })
+    })
+    .catch(err => {
+        return res.status(500).json({ err })
+    })
+}
+
 // Get single Report
 exports.getSingleReport = (req, res) => {
     Report.findById(req.params.id).exec()

@@ -2,7 +2,7 @@ const router = require('express').Router()
 const mongoose = require('mongoose')
 const { signup, login, getUserData, approveUser, deleteUser } = require('./controllers/auth')
 const { 
-    getAllReport, getSingleReport, addReport, deleteReport, getUserReport
+    getAllReport, getSingleReport, addReport, deleteReport, getUserReport, getTotalReport
  } = require('./controllers/reports')
 const { url } = require('./url/url') 
 const User = require('./models/user')
@@ -32,6 +32,8 @@ router.post('/auth/login', login)
 
 // Get reports
 router.get('/reports', getAllReport)
+
+router.get('/reports/:id/total', getTotalReport);
 
 // Get user reports
 router.get('/user/:id/reports/', getUserReport)
