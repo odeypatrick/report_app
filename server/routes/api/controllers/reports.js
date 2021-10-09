@@ -1,4 +1,5 @@
 const Report = require('../models/reports')
+const User = require('../models/user')
 
 exports.getAllReport = (req, res) => {
     Report.find({}).exec()
@@ -53,8 +54,13 @@ exports.getSingleReport = (req, res) => {
 // Add Reports
 exports.addReport = (req, res) => {
     Report.create(req.body)
-    .then(res => {
-        return res.status(201).json({  success: true, message: "report added" })
+    .then(report => {
+        User.findOneAndUpdate(
+            { _id: req.body.user }, 
+            { $push: { reports: report } },
+        ).then(() => {
+            return res.status(200).json({ msg: "Report added successfully" })
+        })
     })
     .catch(err => {
         return res.status(500).json({ sucess: false, message: "Server error" })
