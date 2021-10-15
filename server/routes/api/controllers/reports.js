@@ -50,6 +50,22 @@ exports.getSingleReport = (req, res) => {
     })
 }
 
+// Search Reports
+    exports.searchReport = () => {
+        const query = req.body.q;
+        const search = query.toLowerCase()
+
+        Report.find({ 
+            $or: [{ projectData: { $regex: new RegExp(search) } }, { category: { $regex: new RegExp(search) } },{ vendorName: { $regex: new RegExp(search) } }] 
+        })
+        .then(products => {
+            return res.status(200).json({ products })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
 
 // Add Reports
 exports.addReport = (req, res) => {
@@ -67,7 +83,9 @@ exports.addReport = (req, res) => {
     })
 }
 
-exports.deleteReport = (req, res) => {[
+
+// delete Report
+exports.deleteReport = (req, res) => {
     Report.findByIdAndDelete(req.params.id)
     .then(res => {
         res.status(200).json({ res })
@@ -75,4 +93,39 @@ exports.deleteReport = (req, res) => {[
     .catch(err => {
         res.status(500).json({err})
     })
-]}
+}
+
+// Approving Report
+exports.approveReport = (req, res) => {
+    Report.findByIdAndUpdate(req.params.id, 
+    {
+        $set: {
+            approved: true
+        }
+    })
+    .then(report => res.status(200).json({ success: true, msg: "Report approved successfully", report }))
+    .catch(err => res.status(500).json({ success: false, msg: "Report Not Approved", err }))
+} 
+
+// Dissaprove
+exports.disapproveReport = (req, res) => {
+    Report.findByIdAndUpdate(req.params.id, 
+    {
+        $set: {
+            approved: false
+        }
+    })
+    .then(report => res.status(200).json({ success: true, msg: "Report Disapproved successfully", report }))
+    .catch(err => res.status(500).json({ success: false, msg: "Report Not Dispproved", err }))
+} 
+
+// Edit Report
+exports.editReport = (req, res) => {
+    Report.findByIdAndUpdate(req.params.id, {
+        $set: {
+            projectData: req.body
+        }
+    })
+    .then(report => res.status(200).json({ success: true, msg: "Report edited successfully", report }))
+    .catch(err => res.status(500).json({ success: false, msg: "Report Not Edited", err }))
+}
